@@ -3,19 +3,36 @@
 # Display a welcome message
 echo "System Maintenance Script"
 
-# Update package information and upgrade installed packages
-sudo apt update
-sudo apt upgrade -y
+# Function to ask for user confirmation
+confirm_action() {
+    read -p "Do you want to proceed with $1? (y/n): " choice
+    case "$choice" in
+        y|Y) return 0 ;;
+        n|N) return 1 ;;
+        *) echo "Invalid choice. Please enter y or n." ; confirm_action "$1" ;;
+    esac
+}
 
-# Clean up unnecessary packages and old versions
-sudo apt autoremove -y
-sudo apt autoclean
+# Ask for confirmation before each action
 
-# Clean up temporary files
-sudo rm -rf /tmp/*
+if confirm_action "updating package information"; then
+    sudo apt update
+fi
 
-# Check disk space usage
-df -h
+if confirm_action "upgrading installed packages"; then
+    sudo apt upgrade -y
+fi
 
-# Display a completion message
+if confirm_action "removing unnecessary packages"; then
+    sudo apt autoremove -y
+fi
+
+if confirm_action "cleaning up temporary files"; then
+    sudo rm -rf /tmp/*
+fi
+
+if confirm_action "checking disk space usage"; then
+    df -h
+fi
+
 echo "System maintenance complete."
