@@ -12,11 +12,12 @@ print_colored_message() {
 # Function to show the welcome menu
 show_welcome_menu() {
     clear
-    echo "===== SMS (System Optimization Script) ====="
+    echo "===== System Maintenance Script ====="
     echo "1. Update package information"
     echo "2. Upgrade installed packages"
     echo "3. Remove unnecessary packages"
     echo "4. Clean up temporary files"
+    echo "5. Change DNS servers"
     echo "0. Exit"
     echo "====================================="
 }
@@ -31,10 +32,45 @@ confirm_action() {
     esac
 }
 
+# Function to change DNS servers
+change_dns_servers() {
+    echo "Choose a DNS server preset:"
+    echo "1. Google DNS (8.8.8.8, 8.8.4.4)"
+    echo "2. Quad9 DNS (9.9.9.9, 149.112.112.112)"
+    echo "3. Cloudflare DNS (1.1.1.1, 1.0.0.1)"
+    read -p "Enter your choice (1-3): " dns_choice
+
+    case "$dns_choice" in
+        1)
+            primary_dns="8.8.8.8"
+            secondary_dns="8.8.4.4"
+            ;;
+        2)
+            primary_dns="9.9.9.9"
+            secondary_dns="149.112.112.112"
+            ;;
+        3)
+            primary_dns="1.1.1.1"
+            secondary_dns="1.0.0.1"
+            ;;
+        *)
+            echo "Invalid choice."
+            return
+            ;;
+    esac
+
+    sudo tee /etc/resolv.conf > /dev/null << EOF
+nameserver $primary_dns
+nameserver $secondary_dns
+EOF
+
+    print_colored_message "DNS servers changed to $primary_dns and $secondary_dns"
+}
+
 # Main menu loop
 while true; do
     show_welcome_menu
-    read -p "Enter your choice (0-4): " user_choice
+    read -p "Enter your choice (0-5): " user_choice
 
     case "$user_choice" in
         1)
@@ -61,14 +97,19 @@ while true; do
                 print_colored_message "Temporary files cleaned up."
             fi
             ;;
+        5)
+            change_dns_servers
+            ;;
         0)
             echo "Exiting. Have a great day!"
             exit 0
             ;;
         *)
-            echo "Invalid choice. Please enter a valid option (0-4)."
+            echo "Invalid choice. Please enter a valid option (0-5)."
             ;;
     esac
 
-    read -p "Press Enter to continue..."
+    if [ "$user_choice" -ne 5 ]; then
+        read -p "Press Enter to continue..."
+    fi
 done
