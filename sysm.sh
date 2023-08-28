@@ -29,20 +29,28 @@ while true; do
 
     case "$user_choice" in
         1)
-            sudo apt update
-            print_colored_message "Package information updated."
+            if confirm_action "updating package information"; then
+                sudo apt update
+                print_colored_message "Package information updated."
+            fi
             ;;
         2)
-            sudo apt upgrade -y
-            print_colored_message "Installed packages upgraded."
+            if confirm_action "upgrading installed packages"; then
+                sudo apt upgrade -y
+                print_colored_message "Installed packages upgraded."
+            fi
             ;;
         3)
-            sudo apt autoremove -y
-            print_colored_message "Unnecessary packages removed."
+            if confirm_action "removing unnecessary packages"; then
+                sudo apt autoremove -y
+                print_colored_message "Unnecessary packages removed."
+            fi
             ;;
         4)
-            sudo rm -rf /tmp/*
-            print_colored_message "Temporary files cleaned up."
+            if confirm_action "cleaning up temporary files"; then
+                sudo rm -rf /tmp/*
+                print_colored_message "Temporary files cleaned up."
+            fi
             ;;
         5)
             df -h
@@ -57,5 +65,7 @@ while true; do
             ;;
     esac
 
-    read -p "Press Enter to continue..."
+    if [ "$user_choice" -ne 5 ]; then
+        read -p "Press Enter to continue..."
+    fi
 done
