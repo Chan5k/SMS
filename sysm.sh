@@ -76,6 +76,7 @@ check_dns() {
     print_colored_message "Checking DNS servers..."
     nslookup google.com $primary_dns
     nslookup google.com $secondary_dns
+    read -p "Press Enter to continue..."
 }
 
 # Main menu loop
