@@ -22,6 +22,16 @@ show_welcome_menu() {
     echo "====================================="
 }
 
+# Function to ask for user confirmation
+confirm_action() {
+    read -p "Do you want to proceed with $1? (y/n): " choice
+    case "$choice" in
+        y|Y) return 0 ;;
+        n|N) return 1 ;;
+        *) echo "Invalid choice. Please enter y or n." ; confirm_action "$1" ;;
+    esac
+}
+
 # Main menu loop
 while true; do
     show_welcome_menu
