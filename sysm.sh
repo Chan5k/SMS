@@ -22,16 +22,6 @@ show_welcome_menu() {
     echo "====================================="
 }
 
-# Function to ask for user confirmation
-confirm_action() {
-    read -p "Do you want to proceed with $1? (y/n): " choice
-    case "$choice" in
-        y|Y) return 0 ;;
-        n|N) return 1 ;;
-        *) echo "Invalid choice. Please enter y or n." ; confirm_action "$1" ;;
-    esac
-}
-
 # Main menu loop
 while true; do
     show_welcome_menu
@@ -39,34 +29,24 @@ while true; do
 
     case "$user_choice" in
         1)
-            if confirm_action "updating package information"; then
-                sudo apt update
-                print_colored_message "Package information updated."
-            fi
+            sudo apt update
+            print_colored_message "Package information updated."
             ;;
         2)
-            if confirm_action "upgrading installed packages"; then
-                sudo apt upgrade -y
-                print_colored_message "Installed packages upgraded."
-            fi
+            sudo apt upgrade -y
+            print_colored_message "Installed packages upgraded."
             ;;
         3)
-            if confirm_action "removing unnecessary packages"; then
-                sudo apt autoremove -y
-                print_colored_message "Unnecessary packages removed."
-            fi
+            sudo apt autoremove -y
+            print_colored_message "Unnecessary packages removed."
             ;;
         4)
-            if confirm_action "cleaning up temporary files"; then
-                sudo rm -rf /tmp/*
-                print_colored_message "Temporary files cleaned up."
-            fi
+            sudo rm -rf /tmp/*
+            print_colored_message "Temporary files cleaned up."
             ;;
         5)
-            if confirm_action "checking disk space usage"; then
-                df -h
-                print_colored_message "Disk space usage checked."
-            fi
+            df -h
+            print_colored_message "Disk space usage checked."
             ;;
         0)
             echo "Exiting. Have a great day!"
