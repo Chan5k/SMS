@@ -17,7 +17,6 @@ show_welcome_menu() {
     echo "2. Upgrade installed packages"
     echo "3. Remove unnecessary packages"
     echo "4. Clean up temporary files"
-    echo "5. Check disk space usage"
     echo "0. Exit"
     echo "====================================="
 }
@@ -35,7 +34,7 @@ confirm_action() {
 # Main menu loop
 while true; do
     show_welcome_menu
-    read -p "Enter your choice (0-5): " user_choice
+    read -p "Enter your choice (0-4): " user_choice
 
     case "$user_choice" in
         1)
@@ -62,20 +61,14 @@ while true; do
                 print_colored_message "Temporary files cleaned up."
             fi
             ;;
-        5)
-            print_colored_message "Disk space usage:"
-            df -h
-            ;;
         0)
             echo "Exiting. Have a great day!"
             exit 0
             ;;
         *)
-            echo "Invalid choice. Please enter a valid option (0-5)."
+            echo "Invalid choice. Please enter a valid option (0-4)."
             ;;
     esac
 
-    if [ "$user_choice" -ne 5 ]; then
-        read -p "Press Enter to continue..."
-    fi
+    read -p "Press Enter to continue..."
 done
