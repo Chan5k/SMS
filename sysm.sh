@@ -65,6 +65,17 @@ nameserver $secondary_dns
 EOF
 
     print_colored_message "DNS servers changed to $primary_dns and $secondary_dns"
+    read -p "Do you want to check the new DNS servers? (y/n): " check_dns_choice
+    if [ "$check_dns_choice" == "y" ] || [ "$check_dns_choice" == "Y" ]; then
+        check_dns
+    fi
+}
+
+# Function to check DNS servers
+check_dns() {
+    print_colored_message "Checking DNS servers..."
+    nslookup google.com $primary_dns
+    nslookup google.com $secondary_dns
 }
 
 # Main menu loop
