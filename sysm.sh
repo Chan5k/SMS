@@ -63,8 +63,8 @@ while true; do
             fi
             ;;
         5)
+            print_colored_message "Disk space usage:"
             df -h
-            print_colored_message "Disk space usage checked."
             ;;
         0)
             echo "Exiting. Have a great day!"
