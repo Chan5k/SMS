@@ -12,7 +12,7 @@ print_colored_message() {
 # Function to show the welcome menu
 show_welcome_menu() {
     clear
-    echo "===== System Maintenance Script ====="
+    echo "===== SMS (System Optimization Script) ====="
     echo "1. Update package information"
     echo "2. Upgrade installed packages"
     echo "3. Remove unnecessary packages"
